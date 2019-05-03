@@ -1,0 +1,13 @@
+REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+serboox/ubuntu-tmp-file     latest              3f825d738536        26 seconds ago      119MB
+ubuntu                      16.04               a3551444fc85        6 days ago          119MB
+mysql                       latest              2dd01afbe8df        6 months ago        485MB
+busybox                     latest              8ac48589692a        13 months ago       1.15MB
+redis                       latest              4760dc956b2d        13 months ago       107MB
+nginx                       mainline            73acd1f0cfad        13 months ago       109MB
+debian                      jessie              5dd74d62fab8        13 months ago       123MB
+serboox/htmltopdf           latest              8cc9ddd71ee9        14 months ago       836MB
+
+Image - это наши исходные данные, некотороя сущьность состоящая из одного или нескольких слоев внутри docker-engine с которой мы начинаем нашу работу. Образ может включаь в себя: ничего(from scratch), набор c lib (BusyBox), ось (alpine, debian, ubuntu...), приложение. Все звисит от наших потребностей. Идеальный случай это когда мы имеем бинарь без DLL и кладем его в scratch)
+Container - это некоторая сущьность внутри docker-engine построенная на основании image. Запущенный контейнер является процессом в операционной системе который ограничен системой через namespace и cgroups. Он имеет свой pid, volume, layer, network interface, mount volume.
+sada
