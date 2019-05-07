@@ -13,3 +13,10 @@ serboox microservices repository
 5) Запустил container *reddir* в GCP используя network namespace хостовой машины, что сделало бы доступным reddit если бы не firewall)
 6) Создал firewall правило открывающее порт tcp:9292 для инстансов с network тегом *docker-machine*
 7) Загрузил свой образ на DockerHub: https://hub.docker.com/r/serboox/otus-reddit
+
+# 16.Docker образы. Микросервисы
+1) Скачал, распаковал архив, создал Dockerfile в каждой папке
+2*) Поигрался с названием сети, алиасами и переменными среды
+3) Перенес ui на кастомный образ ubuntu:16.04, уменьшив тем самым начальный размер образа
+4*) Перенес **post** и **comment** на alpine:3.9
+5) Создал persistent volume, перестартанул контейнер с монго, убедился, что все работает при перезапуске
