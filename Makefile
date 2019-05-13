@@ -18,3 +18,18 @@ create-app-firewall-rule:
 	--target-tags=docker-machine \
 	--description="Allow PUMA connections" \
 	--direction=INGRESS
+
+docker-build:
+	docker build -t serboox/post:1.0 ./src/post-py
+	docker build -t serboox/comment:1.0 ./src/comment
+	docker build -t serboox/ui:1.0 ./src/ui
+
+docker-rmi:
+	docker rmi -f $(docker images | grep "<none>" | awk '{print $3}')
+
+docker-run:
+	docker run -d --rm --network=reddit --network-alias=post_db \
+--network-alias=comment_db -v reddit_db:/data/db mongo:latest
+	docker run -d --rm --network=reddit --network-alias=post serboox/post:1.0
+	docker run -d --rm --network=reddit --network-alias=comment serboox/comment:1.0
+	docker run -d --rm --network=reddit -p 9292:9292 serboox/ui:1.0
