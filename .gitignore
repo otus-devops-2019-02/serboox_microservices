@@ -14,3 +14,6 @@ packer/variables.json
 .molecule
 .cache
 .pytest_cache
+
+# Docker-compose
+.env

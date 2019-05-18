@@ -24,6 +24,12 @@ docker-build:
 	docker build -t serboox/comment:1.0 ./src/comment
 	docker build -t serboox/ui:1.0 ./src/ui
 
+docker-push:
+	docker login
+	docker push serboox/post:1.0
+	docker push serboox/comment:1.0
+	docker push serboox/ui:1.0
+
 docker-rmi:
 	docker rmi -f $(docker images | grep "<none>" | awk '{print $3}')
 
