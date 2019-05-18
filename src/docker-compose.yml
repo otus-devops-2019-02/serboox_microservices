@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:${MONGO_DB_VERSION}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+  ui:
+    build: ./ui
+    image: ${IMAGE_USER}/ui:${REDDIT_UI_VERSION}
+    ports:
+      - 9292:${REDDIT_PORT}/tcp
+    networks:
+      - front_net
+  post:
+    build: ./post-py
+    image: ${IMAGE_USER}/post:${REDDIT_POST_VERSION}
+    networks:
+      - front_net
+      - back_net
+  comment:
+    build: ./comment
+    image: ${IMAGE_USER}/comment:${REDDIT_COMMENT_VERSION}
+    networks:
+      - front_net
+      - back_net
+
+volumes:
+  post_db:
+
+networks:
+  front_net:
+    driver: bridge
+    driver_opts:
+        com.docker.network.enable_ipv6: "false"
+    ipam:
+        driver: default
+        config:
+            - subnet: 10.0.1.0/24
+  back_net:
+    driver: bridge
+    driver_opts:
+        com.docker.network.enable_ipv6: "false"
+    ipam:
+        driver: default
+        config:
+            - subnet: 10.0.2.0/24
