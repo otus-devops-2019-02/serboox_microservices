@@ -1,4 +1,6 @@
 
+USER_NAME:=serboox
+
 docker-ps:
 	docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.CreatedAt}}\t{{.Names}}"
 
@@ -20,17 +22,25 @@ create-app-firewall-rule:
 	--direction=INGRESS
 
 docker-build:
-	docker build -t serboox/post:1.0 ./src/post-py
-	docker build -t serboox/comment:1.0 ./src/comment
-	docker build -t serboox/ui:1.0 ./src/ui
+	for folder in ui post-py comment; do \
+		cd src/$$folder; \
+		USER_NAME=${USER_NAME} bash docker_build.sh; \
+		cd -; \
+	done
+	docker build -t ${USER_NAME}/prometheus ./monitoring/prometheus
 
 docker-push:
-	docker login
-	docker push serboox/post:1.0
-	docker push serboox/comment:1.0
-	docker push serboox/ui:1.0
+	docker login --username=${USER_NAME}
+	for service in ui post comment prometheus; do \
+		docker push ${USER_NAME}/$$service:latest; \
+	done
 
 docker-rmi:
+	for service in ui post comment prometheus; do \
+		docker images | grep ${USER_NAME}/$$service | awk '{print $$3}' | xargs docker rmi -f; \
+	done
+
+docker-rmi-cache:
 	docker rmi -f $(docker images | grep "<none>" | awk '{print $3}')
 
 docker-run:
@@ -39,3 +49,9 @@ docker-run:
 	docker run -d --rm --network=reddit --network-alias=post serboox/post:1.0
 	docker run -d --rm --network=reddit --network-alias=comment serboox/comment:1.0
 	docker run -d --rm --network=reddit -p 9292:9292 serboox/ui:1.0
+
+firewall-prometheus-allow:
+	gcloud compute firewall-rules create prometheus-default --allow tcp:9090
+
+firewall-puma-allow:
+	gcloud compute firewall-rules create puma-default --allow tcp:9292

@@ -17,3 +17,6 @@ packer/variables.json
 
 # Docker-compose
 .env
+
+# Other
+XDG_CACHE_HOME
