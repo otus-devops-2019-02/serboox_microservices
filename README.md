@@ -1,6 +1,13 @@
 # serboox_microservices
 serboox microservices repository
 
+Ссылки на hub.docker.com:
+[serboox/ui](https://cloud.docker.com/u/serboox/repository/docker/serboox/ui)
+[serboox/post](https://cloud.docker.com/u/serboox/repository/docker/serboox/post)
+[serboox/comment](https://cloud.docker.com/u/serboox/repository/docker/serboox/comment)
+[serboox/prometheus](https://cloud.docker.com/u/serboox/repository/docker/serboox/prometheus)
+[serboox/alertmanager](https://cloud.docker.com/u/serboox/repository/docker/serboox/alertmanager)
+
 # 14.Технология контейнеризации. Введение в Docker.
 1) Подключил travis и slack
 2) Поигрался с docker
@@ -107,14 +114,18 @@ ps ax | grep docker-proxy
 9) Добавил ограничение деплоя по тегу для stage и production
 10) Добавил динамическое окружение для stage review
 
-# 20 Введение в мониторинг. Модели и принципы работы систем мониторинга
+# 20. Введение в мониторинг. Модели и принципы работы систем мониторинга
 
 1) Добавил правило фаервола и поднял prometheus
 2) Создал новый Docker образ serboox/prometheus
 3) Добавил в корневой Makefile команды для сборки/удаления и пуша Docker образов
 4) Добавил в docker/docker-compose.yml данные сервис **prometheus** и **node-exporter**
-Ссылки на hub.docker.com:
-[serboox/ui](https://cloud.docker.com/u/serboox/repository/docker/serboox/ui)
-[serboox/post](https://cloud.docker.com/u/serboox/repository/docker/serboox/post)
-[serboox/comment](https://cloud.docker.com/u/serboox/repository/docker/serboox/comment)
-[serboox/prometheus](https://cloud.docker.com/u/serboox/repository/docker/serboox/prometheus)
+
+# 21. Мониторинг приложения и инфраструктуры
+1) Вынес мониторинг в отдельный compose фал, добавил в него сервис cAdvisor
+2) Походил по интерфейсу CAdvisor
+3) Добавил в compose файл сервис Grafana, указал для него источник данных, импортировал дашборды из офф. сайта **Docker and system monitoring**
+4) Создал в Grafana дашборд **UI_Service_Monitoring**, добавил в него графики
+5) Создал в Grafana дфшборд **Business_Logic_Monitoring**, добавил в него пару графиков
+6) Создал image с serboox/alertmanager, получил креды для доступа в slack, добавил в compose файл сервис с alertmanager, добавил в serboox/prometheus настройки для alertmanager, перезапустил мониториг и успешно протестировал алертинг
+7) Перезалил образы в hub.docker.com
