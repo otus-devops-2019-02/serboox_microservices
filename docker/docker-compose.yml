@@ -7,27 +7,50 @@ services:
     networks:
       - back_net
   ui:
-    build: ./ui
     image: ${IMAGE_USER}/ui:${REDDIT_UI_VERSION}
     ports:
-      - 9292:${REDDIT_PORT}/tcp
+      - ${REDDIT_PORT}:${REDDIT_PORT}/tcp
     networks:
       - front_net
+      - back_net
   post:
-    build: ./post-py
     image: ${IMAGE_USER}/post:${REDDIT_POST_VERSION}
     networks:
       - front_net
       - back_net
   comment:
-    build: ./comment
     image: ${IMAGE_USER}/comment:${REDDIT_COMMENT_VERSION}
     networks:
       - front_net
       - back_net
-
+  prometheus:
+    image: ${IMAGE_USER}/prometheus
+    ports:
+      - ${PROMETHEUS_PORT}:${PROMETHEUS_PORT}
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+    networks:
+      - front_net
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - front_net
 volumes:
   post_db:
+  prometheus_data:
 
 networks:
   front_net:

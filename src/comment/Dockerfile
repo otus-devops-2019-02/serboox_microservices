@@ -5,7 +5,7 @@ LABEL maintainer="serboox@gmail.com" \
     description="Homework №16"
 
 ENV  APP_HOME /app
-ENV  COMMENT_DATABASE_HOST comment_db
+ENV  COMMENT_DATABASE_HOST post_db
 ENV  COMMENT_DATABASE comments
 
 USER root
