@@ -28,15 +28,16 @@ docker-build:
 		cd -; \
 	done
 	docker build -t ${USER_NAME}/prometheus ./monitoring/prometheus
+	docker build -t ${USER_NAME}/alertmanager ./monitoring/alertmanager
 
 docker-push:
 	docker login --username=${USER_NAME}
-	for service in ui post comment prometheus; do \
+	for service in ui post comment prometheus alertmanager; do \
 		docker push ${USER_NAME}/$$service:latest; \
 	done
 
 docker-rmi:
-	for service in ui post comment prometheus; do \
+	for service in ui post comment prometheus alertmanager; do \
 		docker images | grep ${USER_NAME}/$$service | awk '{print $$3}' | xargs docker rmi -f; \
 	done
 
@@ -55,3 +56,10 @@ firewall-prometheus-allow:
 
 firewall-puma-allow:
 	gcloud compute firewall-rules create puma-default --allow tcp:9292
+
+firewall-ssh-allow:
+	gcloud compute firewall-rules create ssh-default --allow tcp:22
+
+docker-compose-up:
+	cd docker && docker-compose up -d
+	cd docker && docker-compose -f docker-compose-monitoring.yml up -d
