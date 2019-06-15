@@ -14,24 +14,14 @@ require_relative 'helpers'
 POST_SERVICE_HOST ||= ENV['POST_SERVICE_HOST'] || '127.0.0.1'
 POST_SERVICE_PORT ||= ENV['POST_SERVICE_PORT'] || '4567'
 COMMENT_SERVICE_HOST ||= ENV['COMMENT_SERVICE_HOST'] || '127.0.0.1'
-COMMENT_SERVICE_PORT ||= ENV['COMMENT_SERVICE_PORT'] || '9292'
+COMMENT_SERVICE_PORT ||= ENV['COMMENT_SERVICE_PORT'] || '4567'
 ZIPKIN_ENABLED ||= ENV['ZIPKIN_ENABLED'] || false
 POST_URL ||= "http://#{POST_SERVICE_HOST}:#{POST_SERVICE_PORT}"
 COMMENT_URL ||= "http://#{COMMENT_SERVICE_HOST}:#{COMMENT_SERVICE_PORT}"
 
 # App version and build info
-if File.exist?('VERSION')
-  VERSION ||= File.read('VERSION').strip
-else
-  VERSION ||= "version_missing"
-end
-
-if File.exist?('build_info.txt')
-  BUILD_INFO = File.readlines('build_info.txt')
-else
-  BUILD_INFO = Array.new(2, "build_info_missing")
-end
-
+VERSION ||= File.read('VERSION').strip
+BUILD_INFO = File.readlines('build_info.txt')
 @@host_info=ENV['HOSTNAME']
 @@env_info=ENV['ENV']
 

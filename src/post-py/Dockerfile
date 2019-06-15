@@ -10,9 +10,9 @@ ENV  POST_DATABASE posts
 WORKDIR /app
 COPY . /app
 
-RUN apk add --no-cache build-base &&\
+RUN apk add --no-cache build-base gcc musl-dev &&\
     pip install --upgrade pip &&\
     pip install -r /app/requirements.txt &&\
-    apk del build-base
+    apk del build-base gcc musl-dev
 
 ENTRYPOINT ["python3", "post_app.py"]
