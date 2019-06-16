@@ -1,0 +1,54 @@
+version: '3.3'
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "${ZIPKIN_PORT}:${ZIPKIN_PORT}"
+    networks:
+      - front_net
+      - back_net
+
+  fluentd:
+    image: ${IMAGE_USER}/fluentd
+    ports:
+      - "${FLUENTD_PORT}:${FLUENTD_PORT}"
+      - "${FLUENTD_PORT}:${FLUENTD_PORT}/udp"
+    networks:
+      - front_net
+      - back_net
+
+  elasticsearch:
+    image: elasticsearch:7.1.1
+    environment:
+      - discovery.type=single-node
+    expose:
+      - ${ELASTICSEARCH_PORT}
+    ports:
+      - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
+    networks:
+      - back_net
+
+  kibana:
+    image: kibana:7.1.1
+    ports:
+      - "${KIBANA_PORT}:${KIBANA_PORT}"
+    networks:
+      - back_net
+
+networks:
+  front_net:
+    driver: bridge
+    driver_opts:
+        com.docker.network.enable_ipv6: "false"
+    ipam:
+        driver: default
+        config:
+            - subnet: 10.0.1.0/24
+  back_net:
+    driver: bridge
+    driver_opts:
+        com.docker.network.enable_ipv6: "false"
+    ipam:
+        driver: default
+        config:
+            - subnet: 10.0.2.0/24

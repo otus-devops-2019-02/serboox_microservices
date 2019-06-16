@@ -2,29 +2,59 @@ version: '3.3'
 services:
   post_db:
     image: mongo:${MONGO_DB_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     volumes:
       - post_db:/data/db
     networks:
       - back_net
   ui:
     image: ${IMAGE_USER}/ui:${REDDIT_UI_VERSION}
+    environment:
+      - POST_SERVICE_HOST=post
+      - POST_SERVICE_PORT=${POST_PORT}
+      - COMMENT_SERVICE_HOST=comment
+      - COMMENT_SERVICE_PORT=${REDDIT_PORT}
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - ${REDDIT_PORT}:${REDDIT_PORT}/tcp
     networks:
       - front_net
       - back_net
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:${FLUENTD_PORT}
+        tag: service.ui
   post:
     image: ${IMAGE_USER}/post:${REDDIT_POST_VERSION}
+    environment:
+      - POST_DATABASE_HOST=post_db
+      - POST_DATABASE=posts
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    ports:
+      - "${POST_PORT}:${POST_PORT}"
     networks:
       - front_net
       - back_net
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:${FLUENTD_PORT}
+        tag: service.post
   comment:
     image: ${IMAGE_USER}/comment:${REDDIT_COMMENT_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
+    expose:
+      - ${REDDIT_PORT}
     networks:
       - front_net
       - back_net
   prometheus:
     image: ${IMAGE_USER}/prometheus
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     ports:
       - ${PROMETHEUS_PORT}:${PROMETHEUS_PORT}
     volumes:
@@ -37,6 +67,8 @@ services:
       - front_net
   node-exporter:
     image: prom/node-exporter:v0.15.2
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     user: root
     volumes:
       - /proc:/host/proc:ro

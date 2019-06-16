@@ -29,4 +29,5 @@ RUN mv ./root/gemrc /root/.gemrc && \
     apk del build-dependencies && \
     rm -rf /usr/lib/ruby/gems/*/cache/* /var/cache/apk/* /tmp/* /var/tmp/*
 
+EXPOSE 9292
 CMD ["puma"]

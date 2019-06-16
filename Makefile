@@ -14,6 +14,17 @@ docker-machine-gcp:
 	--google-zone europe-west1-b \
 	docker-host
 
+docker-machine-logging:
+	docker-machine create --driver google \
+    --google-machine-image https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts \
+    --google-machine-type n1-standard-1 \
+    --google-open-port 5601/tcp \
+    --google-open-port 9292/tcp \
+    --google-open-port 9411/tcp \
+	--google-open-port 22/tcp \
+	--google-zone europe-west1-b \
+    logging
+
 create-app-firewall-rule:
 	gcloud compute firewall-rules create reddit-app \
 	--allow tcp:9292 \
@@ -34,6 +45,12 @@ docker-push:
 	docker login --username=${USER_NAME}
 	for service in ui post comment prometheus alertmanager; do \
 		docker push ${USER_NAME}/$$service:latest; \
+	done
+
+docker-push-logging:
+	docker login --username=${USER_NAME}
+	for service in ui post comment; do \
+		docker push ${USER_NAME}/$$service:logging; \
 	done
 
 docker-rmi:
