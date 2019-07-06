@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comment-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comment
+  template:
+    metadata:
+      name: comment
+      labels:
+        app: comment
+    spec:
+      containers:
+      - name: comment
+        image: serboox/comment
+        ports:
+          - containerPort: 9292
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"

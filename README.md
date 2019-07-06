@@ -136,3 +136,17 @@ ps ax | grep docker-proxy
 3) Походил по интерфейсу kibana
 4) Несколько раз пересобирал fluentd контейнер и наблюдал за результатами
 5) Добавил в docker-compose-logging.yml сервис zipkin, добавил переменную среды, переподнял инфраструктуру, понаблюдал за выдачей информации в web интерфейсе
+
+# 25. Введение в Kubernetes.
+1) Развернул кластер Kubernetes согластно документации в репе https://github.com/kelseyhightower/kubernetes-the-hard-way
+2) Произвел успешный запуск Pod'ов
+``` bash
+$ kubectl get pods
+NAME                                  READY   STATUS    RESTARTS   AGE
+busybox-bd8fb7cbd-fmhw6               1/1     Running   0          56m
+comment-deployment-5b76fd6d87-8czzd   1/1     Running   0          20m
+mongo-deployment-68495b7858-hf2nr     1/1     Running   0          19m
+post-deployment-7897d94f5d-2vngb      1/1     Running   0          20m
+ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
+```
+3) Дропнул кластер Kubernetes
