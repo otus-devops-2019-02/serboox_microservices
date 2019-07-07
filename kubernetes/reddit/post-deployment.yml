@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post
+  template:
+    metadata:
+      name: post
+      labels:
+        app: post
+    spec:
+      containers:
+      - name: post
+        image: serboox/post
+        env:
+          - name: POST_DATABASE_HOST
+            value: "post_db"
+          - name: POST_DATABASE
+            value: "posts"
+        ports:
+          - containerPort: 5000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"

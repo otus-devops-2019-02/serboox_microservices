@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      name: ui
+      labels:
+        app: ui
+    spec:
+      containers:
+      - name: ui
+        image: serboox/ui
+        env:
+          - name: POST_SERVICE_HOST
+            value: "post"
+          - name: POST_SERVICE_PORT
+            value: "5000"
+          - name: COMMENT_SERVICE_HOST
+            value: "comment"
+          - name: COMMENT_SERVICE_PORT
+            value: "9292"
+        ports:
+          - containerPort: 5000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"

@@ -80,3 +80,16 @@ firewall-ssh-allow:
 docker-compose-up:
 	cd docker && docker-compose up -d
 	cd docker && docker-compose -f docker-compose-monitoring.yml up -d
+
+gcloud-create-ssh-key:
+	gcloud compute ssh controller-0
+
+kubectl-status:
+	kubectl get componentstatuses
+
+kubectl-nodes:
+	kubectl get nodes
+
+kubectl-pods:
+	kubectl get pods
+
