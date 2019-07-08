@@ -150,3 +150,18 @@ post-deployment-7897d94f5d-2vngb      1/1     Running   0          20m
 ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
 ```
 3) Дропнул кластер Kubernetes
+
+# 26. Основные модели безопасности и контроллеры в Kubernetes
+1) Обновил kubectl и minikube на ноуте, поднял minikube в VirtualBox
+2) Создал ui-deployment.yml, пробросил порт, проверил работу в браузере
+3) Создал comment-deployment.yml, post-deployment.yml, mongo-deployment.yml, comment-service.yml?, post-service.yml, comment-mongodb-service.yml, post-mongodb-service.yml, ui-service.yml
+4) Проверил, что наше приложение работает успешно
+``` bash
+    minikube service ui
+```
+5) Поигрался с Dashboard
+``` bash
+     minikube service kubernetes-dashboard -n kube-system
+```
+6) Поднял свой Kubernetes кластер в GCP, создал правило брандмауэра
+7) Сделал скриншот и положил в папку ./kubernetes
