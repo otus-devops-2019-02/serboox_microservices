@@ -2,32 +2,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-deployment
+  name: post
+  labels:
+    app: reddit
+    component: post
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: post
+      app: reddit
+      component: post
   template:
     metadata:
       name: post
       labels:
-        app: post
+        app: reddit
+        component: post
     spec:
       containers:
       - name: post
         image: serboox/post
         env:
           - name: POST_DATABASE_HOST
-            value: "post_db"
+            value: post-db
           - name: POST_DATABASE
-            value: "posts"
+            value: posts
         ports:
           - containerPort: 5000
         resources:
           requests:
-            memory: "256Mi"
+            memory: "64Mi"
             cpu: "100m"
           limits:
-            memory: "1024Mi"
+            memory: "256Mi"
             cpu: "500m"

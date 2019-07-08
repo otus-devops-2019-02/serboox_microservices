@@ -93,3 +93,49 @@ kubectl-nodes:
 kubectl-pods:
 	kubectl get pods
 
+minikube-set-kvm:
+	minikube config set vm-driver kvm2
+
+minikube-start:
+	minikube start --vm-driver kvm2
+
+minikube-current-context:
+	kubectl config current-context
+
+minikube-context-list:
+	kubectl config get-contexts
+
+minikube-dcoker-env:
+	eval $(minikube docker-env)
+
+minikube-resolve-dns:
+	minikube stop
+	VBoxManage modifyvm "minikube" --natdnshostresolver1 on
+	minikube start
+
+kubectl-describe-service:
+	kubectl describe service comment
+
+# Open node port in browser
+minikube-service-ui:
+	minikube service ui
+
+# Show me all opend node ports
+minikube-service-list:
+	minikube service list
+
+# Show me all Kubernetes addons PODs
+minikube addons list:
+	minikube addons list
+
+# Writes credentials to ~/.kube/config
+gcp-kubernetes-init:
+ 	gcloud container clusters get-credentials your-first-cluster --zone us-central1-a --project otus-devops-235515
+
+gcp-kubernetes-run:
+	kubectl apply -f ./kubernetes/reddit/dev-namespace.yml
+	kubectl apply -f ./kubernetes/reddit/ -n dev
+
+# Get extended information about nodes
+kubectl-get-nodes:
+	kubectl get nodes -o wide

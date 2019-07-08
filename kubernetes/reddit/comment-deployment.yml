@@ -2,27 +2,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: comment-deployment
+  name: comment
+  labels:
+    app: reddit
+    component: comment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: comment
+      app: reddit
+      component: comment
   template:
     metadata:
       name: comment
       labels:
-        app: comment
+        app: reddit
+        component: comment
     spec:
       containers:
       - name: comment
         image: serboox/comment
+        env:
+        - name: COMMENT_DATABASE_HOST
+          value: comment-db
         ports:
           - containerPort: 9292
         resources:
           requests:
-            memory: "256Mi"
+            memory: "64Mi"
             cpu: "100m"
           limits:
-            memory: "1024Mi"
+            memory: "256Mi"
             cpu: "500m"
