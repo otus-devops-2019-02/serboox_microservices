@@ -139,3 +139,12 @@ gcp-kubernetes-run:
 # Get extended information about nodes
 kubectl-get-nodes:
 	kubectl get nodes -o wide
+
+generate-ssl-crt:
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=34.96.101.152"
+
+kubectl-upload-crt:
+ 	kubectl create secret tls ui-ingress --key tls.key --cert tls.crt -n dev
+
+kubectl-get-pv
+	kubectl get persistentvolume -n dev

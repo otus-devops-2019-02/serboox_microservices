@@ -10,10 +10,10 @@ spec:
   type: NodePort
   ports:
   - port: 9292
-    nodePort: 30080
+    #nodePort: 30407
     protocol: TCP
     targetPort: 9292
-    name: local
+    #name: local
   selector:
     app: reddit
     component: ui
