@@ -177,3 +177,4 @@ ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
 8) Создал пустой Volume в GCP и подключил его MongoDB Deployment.
 8) Создал описание PersistentVolume. Создал описание PersistentVolumeClaim и подключил его MongoDB Deployment.
 9) Создал связку объектов StorageClass + PersistentVolumeClaim для fast storage и подключил его MongoDB Deployment.
+
