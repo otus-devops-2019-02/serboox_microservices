@@ -165,3 +165,15 @@ ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
 ```
 6) Поднял свой Kubernetes кластер в GCP, создал правило брандмауэра
 7) Сделал скриншот и положил в папку ./kubernetes
+
+# 27. Ingress-контроллеры и сервисы в Kubernetes.
+1) Почитал доку куба
+2) Настроил объект LoadBalancer
+3) Настроил объект Ingress (долго же он создавался)
+4) Создал self signed cert и добавил объект Secrete в kubernetes
+5) Настроил Ingress на прием только HTTPS трафика. Cтарый Ingress пришлось удалить в ручную)
+6) Включил network-policy для GKE (сетевой плагин Calico вместо Kubenet).
+7) Создал объект Network Policy для MongoDB добавив в беллый список comment и post.
+8) Создал пустой Volume в GCP и подключил его MongoDB Deployment.
+8) Создал описание PersistentVolume. Создал описание PersistentVolumeClaim и подключил его MongoDB Deployment.
+9) Создал связку объектов StorageClass + PersistentVolumeClaim для fast storage и подключил его MongoDB Deployment.

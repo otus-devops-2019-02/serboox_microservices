@@ -29,7 +29,7 @@ spec:
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: mongo-persistent-storage
+        - name: mongo-gce-pd-storage
           mountPath: /data/db
         resources:
           requests:
@@ -39,5 +39,16 @@ spec:
             memory: "1024Mi"
             cpu: "500m"
       volumes:
-        - name: mongo-persistent-storage
-          emptyDir: {}
+      - name: mongo-persistent-storage
+        emptyDir: {}
+        volumes:
+      - name: mongo-gce-pd-storage-block
+        gcePersistentDisk:
+          pdName: reddit-mongo-disk
+          fsType: ext4
+      - name: mongo-gce-pd-storage-static
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+      - name: mongo-gce-pd-storage
+        persistentVolumeClaim:
+          claimName: mongo-pvc-dynamic
