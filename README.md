@@ -178,3 +178,11 @@ ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
 8) Создал описание PersistentVolume. Создал описание PersistentVolumeClaim и подключил его MongoDB Deployment.
 9) Создал связку объектов StorageClass + PersistentVolumeClaim для fast storage и подключил его MongoDB Deployment.
 
+# 28. Интеграция Kubernetes в GitlabCI.
+1) Составил Helm Chart'ы для компонентов (ui, post, comment), взял готовый Chart с MongoDB. Успешно протестировал работу Reddit.
+2) Поднял дополнительную ноду (bigpool) в GCP
+3) Поднял GitLab используя готовый Chart
+4) Создал в GitLab группу и отдельный проект для каждого из компонентов.
+5) Запушил исходники в репы.
+6) Добавил .gitlab-ci для каждого проекта
+7) Успешно протестировал работу CI/CD для каждого проекта
