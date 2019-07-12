@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "comment.fullname" . }}
+  labels:
+    app: {{ .Values.app.name }}
+    component: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  ports:
+  - port: {{ .Values.service.externalPort }}
+    protocol: TCP
+    targetPort: {{ .Values.service.internalPort }}
+  selector:
+    app: {{ .Values.app.name }}
+    component: {{ .Chart.Name }}
+    release: {{ .Release.Name }}

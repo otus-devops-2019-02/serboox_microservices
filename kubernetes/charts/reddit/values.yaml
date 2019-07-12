@@ -1,0 +1,20 @@
+comment:
+  image:
+    repository: serboox/comment
+    tag: latest
+  service:
+    externalPort: 9292
+
+post:
+  image:
+    repository: serboox/post
+    tag: latest
+    service:
+      externalPort: 5000
+
+ui:
+  image:
+    repository: serboox/ui
+    tag: latest
+    service:
+      externalPort: 9292

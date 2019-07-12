@@ -1,0 +1,13 @@
+---
+app:
+  name: reddit
+
+service:
+  internalPort: 5000
+  externalPort: 5000
+
+image:
+  repository: serboox/post
+  tag: latest
+
+databaseHost:
