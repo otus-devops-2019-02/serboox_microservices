@@ -1,0 +1,15 @@
+---
+app:
+  name: reddit
+
+service:
+  internalPort: 9292
+  externalPort: 9292
+  mongoInternalPort: 27017
+  mongoExternalPort: 27017
+
+image:
+  repository: serboox/comment
+  tag: latest
+
+databaseHost:

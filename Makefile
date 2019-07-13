@@ -141,10 +141,17 @@ kubectl-get-nodes:
 	kubectl get nodes -o wide
 
 generate-ssl-crt:
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=34.96.101.152"
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout kubernetes/reddit/tls.key -out kubernetes/reddit/tls.crt -subj "/CN=34.96.101.152"
 
 kubectl-upload-crt:
- 	kubectl create secret tls ui-ingress --key tls.key --cert tls.crt -n dev
+ 	kubectl create secret tls ui-ingress --key kubernetes/reddit/tls.key --cert kubernetes/reddit/tls.crt
 
-kubectl-get-pv
+kubectl-get-pv:
 	kubectl get persistentvolume -n dev
+
+helm-add-gitlab-repo:
+	helm repo add gitlab https://charts.gitlab.io
+	helm fetch gitlab/gitlab-omnibus --version 0.1.37 --untar
+
+helm-install-gitlab:
+	helm install --name gitlab . -f values.yaml
