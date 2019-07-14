@@ -186,3 +186,17 @@ ui-deployment-597955b967-v7s9w        1/1     Running   0          20m
 5) Запушил исходники в репы.
 6) Добавил .gitlab-ci для каждого проекта
 7) Успешно протестировал работу CI/CD для каждого проекта
+
+# 29. Kubernetes. Мониторинг и логирование.
+1) Поднял свой Kubernetes Cluester в GCP
+2) Из Helm-чарта установил ingress-контроллер nginx
+3) Сфетчил Prometheus Chart и запустил его с однельным файлом с переменными custom_values.yml
+4) Включил kubeStateMetrics и nodeExporter
+5) Поднял reddit в default, production и staging namespaces
+6) Добавил в пром job'у 'reddit-endpoints', после чего несколько раз модифицировал ее
+7) Добавил в пром job'у 'reddit-production'
+8) Убрал job'у 'reddit-endpoints' и добавил job'ы 'ui-endpoints', 'post-endpoints' и 'comment-endpoints'
+9) Запустил Grafana Chart, и попробовал импортировать в него несколько dashboards
+10) Добавил переменную Env в дашборды
+11) Создал файлы для fluentd и elastic search для kubernetes
+12) Запустил Kibana через helm Chart
