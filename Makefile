@@ -155,3 +155,30 @@ helm-add-gitlab-repo:
 
 helm-install-gitlab:
 	helm install --name gitlab . -f values.yaml
+
+helm-install-nginx-ingress:
+	helm install stable/nginx-ingress --name nginx
+
+helm-install-prometheus:
+	helm upgrade prom . -f custom_values.yml --install
+
+helm-run:
+	helm upgrade reddit-test ./reddit --install
+	helm upgrade production --namespace production ./reddit --install
+	helm upgrade staging --namespace staging ./reddit --install
+
+helm-install-grafana:
+	helm upgrade --install grafana stable/grafana --set "server.adminPassword=admin" \
+	--set "server.service.type=NodePort" \
+	--set "server.ingress.enabled=true" \
+	--set "server.ingress.hosts={reddit-grafana}"
+
+kubectl-add-label:
+	kubectl label node gke-standard-cluster-1-pool-1-8aba7dc8-ftw9 elastichost=true
+
+helm install-kibana:
+	helm upgrade --install kibana stable/kibana \
+	--set "ingress.enabled=true" \
+	--set "ingress.hosts={reddit-kibana}" \
+	--set "env.ELASTICSEARCH_URL=http://elasticsearch-logging:9200" \
+	--version 0.1.1
